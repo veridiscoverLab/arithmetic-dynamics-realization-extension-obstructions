@@ -1,60 +1,60 @@
-# 几何接口 TODO
+# Geometric Interface TODO
 
-## 一般目标
+## General target
 
-设 `k` 为任意域，`X` 为射影 `k`-概形，`L` 为丰沛线丛，`φ : X → X` 为 `k`-态射，并固定 `μ : φ*L ≅ L^⊗d`，其中 `d ≥ 2`。目标是构造闭浸入 `j : X ↪ ℙᴹ_k` 和次数仍为 `d` 的全局态射 `Ψ`，使 `Ψ ∘ j = j ∘ φ`，保留全部原迭代，并有某个 `s ≥ 1` 使 `j*O(1) ≅ L^⊗s`。
+Let `k` be an arbitrary field, `X` a projective `k`-scheme, `L` an ample line bundle, and `φ : X → X` a `k`-morphism. Fix `μ : φ*L ≅ L^⊗d`, where `d ≥ 2`. The target is to construct a closed immersion `j : X ↪ ℙᴹ_k` and an everywhere-defined morphism `Ψ` of the same degree `d`, with `Ψ ∘ j = j ∘ φ`, preserving all original iterates, and with `j*O(1) ≅ L^⊗s` for some `s ≥ 1`.
 
-目前库中完成的是坐标输入版本，以及真实余循环截面代数、单一极化的所有次数动力和截面提升后端。以下清单专门记录从原一般几何数据到这些输入的剩余工作。
+The library establishes the version with coordinate inputs, together with the cocycle section algebra, the maps in every degree induced by a single polarization, and the section-lifting theorem. The remaining tasks construct these inputs from the given geometric data.
 
-## 待实现
+## Remaining implementation
 
-- [ ] **丰沛幂的实际嵌入。** 从原 `L` 得到 `a ≥ 1`、`B = L^⊗a`、实际闭浸入 `i : X ↪ ℙʳ_k` 及 `i*O(1) ≅ B`。
-- [ ] **原张量幂的自然识别。** 将真实张量幂与现有余循环幂识别，连接全部乘法、限制、拉回和由唯一 `μ` 产生的高次极化。
-- [ ] **证明 `hres`。** 从原嵌入的理想层证明所需 `td` 层的限制满射；不把目标截面空间改成多项式像，不额外要求 `Γ(X,O_X)=k`。
-- [ ] **原概形与原态射的识别。** 证明原 `X` 是所取齐次限制核的实际 `Proj`，并在完整结构层和指定基域上识别原 `φ`、坐标自态射及最终交换方块，保留非约化结构。
-- [ ] **空概形入口。** 一般目标包含空概形，当前坐标总定理具有几何非空假设；需要独立接入这个边界。
+- [ ] **Construct the embedding from an ample power.** Starting from the original `L`, obtain `a ≥ 1`, `B = L^⊗a`, an actual closed immersion `i : X ↪ ℙʳ_k`, and `i*O(1) ≅ B`.
+- [ ] **Identify the original tensor powers.** Construct natural identifications of the tensor powers with the existing cocycle powers, compatible with multiplication, restriction, pullback, and higher-degree polarizations induced by the single `μ`.
+- [ ] **Prove `hres`.** Use the ideal sheaf of the original embedding to prove surjectivity of restriction in the required degree `td`, retaining the full target section space and allowing `Γ(X,O_X) ≠ k`.
+- [ ] **Identify the original scheme and morphism.** Prove that the original `X` is the actual `Proj` of the chosen homogeneous restriction kernel, and identify the original `φ`, the coordinate endomorphism, and the final commutative square on the full structure sheaf over the specified base field, preserving nonreduced structure.
+- [ ] **Handle the empty scheme.** The general target includes the empty scheme, whereas the current coordinate theorem assumes geometric nonemptiness; this boundary case requires a separate implementation.
 
-另有独立任务：形式化论文的次数一边界命题（§3，命题 3.7）。它不是上述 `d ≥ 2` 定理的前提。
+A separate task is to formalize the paper's degree-one boundary proposition (§3, Proposition 3.7). The `d ≥ 2` theorem above is independent of this proposition.
 
-## 为什么纸面入口由标准定理给出
+## How standard theorems supply the inputs on paper
 
-下文是通常代数几何中的证明，不是已经完成的 Lean 根定理。
+The following argument uses standard algebraic geometry. Its end-to-end formalization in Lean remains pending.
 
-### 1. 固定一个很丰沛幂
+### 1. Fix a very ample power
 
-先设 `X` 非空。丰沛性及有限型性给出某个 `B = L^⊗a` 和浸入 `i : X → ℙʳ_k`，满足 `i*O(1) ≅ B`。`X/k` 固有、目标分离，因此此浸入固有，具有闭像并成为闭浸入。这些结论适用于非约化概形。[Stacks 01VS](https://stacks.math.columbia.edu/tag/01VS)、[01W6](https://stacks.math.columbia.edu/tag/01W6)、[01IQ](https://stacks.math.columbia.edu/tag/01IQ)
+First assume that `X` is nonempty. Ampleness and the finite-type hypothesis give some `B = L^⊗a` and an immersion `i : X → ℙʳ_k` with `i*O(1) ≅ B`. Since `X/k` is proper and the target is separated, this immersion is proper, has closed image, and is a closed immersion. These statements apply to nonreduced schemes. [Stacks 01VS](https://stacks.math.columbia.edu/tag/01VS), [01W6](https://stacks.math.columbia.edu/tag/01W6), [01IQ](https://stacks.math.columbia.edu/tag/01IQ)
 
-### 2. 在这个固定嵌入上使用 Serre 消灭
+### 2. Apply Serre vanishing to this fixed embedding
 
-令 `𝓘` 为原嵌入的相干理想层。把理想层正合列张量以 `O(n)`，再取上同调；Serre 消灭使 `H¹(ℙʳ,𝓘(n))` 在充分大的 `n` 上为零，因而得到
+Let `𝓘` be the coherent ideal sheaf of the original embedding. Tensor the ideal-sheaf exact sequence with `O(n)` and take cohomology. Serre vanishing gives `H¹(ℙʳ,𝓘(n)) = 0` for all sufficiently large `n`, yielding
 
 $$
 H^0(\mathbb P^r,\mathcal O(n))\twoheadrightarrow H^0(X,B^{\otimes n}).
 $$
 
-左端在 `n ≥ 0` 时就是旧变量的 `n` 次齐次形式。选 `t ≥ 1` 使 `td` 达到该阈值，即取得所需 `hres`。这一步没有随 `t` 更换理想层再假定同一个阈值，也不要求 `t` 次限制满射。[Stacks 0B5T](https://stacks.math.columbia.edu/tag/0B5T)、[01XT](https://stacks.math.columbia.edu/tag/01XT)
+For `n ≥ 0`, the left-hand side consists of homogeneous forms of degree `n` in the old variables. Choose `t ≥ 1` so that `td` reaches this threshold, obtaining the required `hres`. The ideal sheaf and its vanishing threshold remain fixed as `t` varies. Surjectivity is required only in degree `td`. [Stacks 0B5T](https://stacks.math.columbia.edu/tag/0B5T), [01XT](https://stacks.math.columbia.edu/tag/01XT)
 
-### 3. 取得已验证核心需要的坐标与原核
+### 3. Construct the coordinates and homogeneous kernel
 
-令 `s_α = u^α|_X`，其中 `|α| = t`。这些截面定义 `j₀ = ν_t ∘ i` 并生成 `M = B^⊗t`；不要求它们是完整全局截面空间的基。
+Set `s_α = u^α|_X`, where `|α| = t`. These sections define `j₀ = ν_t ∘ i` and generate `M = B^⊗t`; they need not form a basis of the full space of global sections.
 
-固定极化将 `φ*s_α` 识别为 `M^⊗d = B^⊗td` 的截面。由 `hres`，每个这样的截面可提升为旧变量的 `td` 次形式。将其每个单项式分为 `d` 个 `t` 次单项式的乘积，便得到新变量的 `d` 次齐次式 `F_α`，满足原截面上的精确等式。
+The fixed polarization identifies `φ*s_α` with a section of `M^⊗d = B^⊗td`. By `hres`, each such section lifts to a form of degree `td` in the old variables. Factoring each monomial into a product of `d` monomials of degree `t` gives homogeneous forms `F_α` of degree `d` in the new variables, satisfying exact equalities on the original sections.
 
-设
+Set
 
 $$
 J=\ker\!\left(k[Y_\alpha]\longrightarrow
 \bigoplus_{m\ge0}H^0(X,M^{\otimes m}),\quad Y_\alpha\longmapsto s_\alpha\right).
 $$
 
-这是齐次理想，且 `X ≅ Proj(k[Y]/J)` 保留原闭子概形结构。这个识别使用限制核，而非仅取几何零点的消失理想。[Stacks 03GL](https://stacks.math.columbia.edu/tag/03GL)
+This is a homogeneous ideal, and `X ≅ Proj(k[Y]/J)` preserves the original closed subscheme structure. The identification uses the exact restriction kernel, including the data of the nonreduced structure. [Stacks 03GL](https://stacks.math.columbia.edu/tag/03GL)
 
-对齐次 `G ∈ J`，单一极化及其相容张量幂给出 `G(F(s)) = 0`，因此代换保持原 `J`。生成截面的拉回在极化同构下仍生成相应线丛，故 `F_α` 在原几何零集上无共同基点。生成线丛的截面及其同构决定射影态射，所以所得商概形自态射就是原 `φ`，不只是在域值点上相同。[Stacks 01NE](https://stacks.math.columbia.edu/tag/01NE)
+For homogeneous `G ∈ J`, the single polarization and its compatible tensor powers give `G(F(s)) = 0`, so substitution preserves the original `J`. Under the polarization isomorphism, the pullbacks of the generating sections still generate the corresponding line bundle. Hence the `F_α` have no common base point on the original geometric zero locus. Generating sections of a line bundle, together with its isomorphism, determine the projective morphism. Thus the resulting endomorphism of the quotient scheme equals the original `φ` as a scheme morphism, including its action on the structure sheaf. [Stacks 01NE](https://stacks.math.columbia.edu/tag/01NE)
 
-现在可应用已验证的坐标延拓定理；它再作所需重嵌入，保持原次数 `d`。其中有限域上的环境延拓构造是该核心的内容，不是由 Serre 消灭单独推出的。空概形可以用空嵌入及 `ℙ¹` 上的 `[x:y] ↦ [x^d:y^d]` 单独处理。
+The verified coordinate extension theorem now applies, providing the required further embedding while preserving the original degree `d`. Serre vanishing supplies the section-lifting input; the coordinate theorem supplies the ambient extension over finite fields. The empty scheme can be handled separately using the empty embedding and `[x:y] ↦ [x^d:y^d]` on `ℙ¹`.
 
-## 形式化的验收标准
+## Criteria for completion of the formalization
 
-这些剩余步骤是经典几何事实及其对原对象的应用，不是新增的开放猜想。实现仍须给出实际对象识别和相容证明，不能把结论存入假设字段，也不能因纸面论证成立而删除 `hres` 参数。
+The remaining steps formalize classical geometric facts and their application to the original objects. The implementation must construct the actual identifications and prove compatibility. Each desired conclusion requires a proof from the original inputs; `hres` remains an explicit hypothesis until its proof is formalized.
 
-只有当一般目标直接以原 `X,L,φ,μ` 为输入，并构造上述全部中间数据后，才能将它标为端到端形式化。§2、§4、§5 的独立结果不以这项 TODO 的完成为条件。
+The general target may be described as an end-to-end formalization only once it takes the original `X,L,φ,μ` directly as inputs and constructs all the intermediate data above. The independent results in §2, §4, and §5 do not depend on completing this TODO.

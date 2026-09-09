@@ -2,7 +2,7 @@
 
 Lean 4 formalizations of recurrence zero-set realization via Frobenius, degree-preserving projective extension, and orbit obstructions.
 
-The [English paper](paper/arithmetic-dynamics.pdf) presents the proofs, examples, and formalization scope.
+The [paper](paper/arithmetic-dynamics.pdf) presents the proofs, examples, and formalization scope.
 
 | Result | Formalized scope | Entry point |
 |---|---|---|

@@ -1,0 +1,12 @@
+.lake/
+build/
+dist/
+*.olean
+*.ilean
+*.trace
+*.log
+__pycache__/
+*.py[cod]
+.DS_Store
+.vscode/
+.idea/

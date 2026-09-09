@@ -2,6 +2,8 @@
 
 Lean 4 formalizations of recurrence zero-set realization via Frobenius, degree-preserving projective extension, and orbit obstructions.
 
+The [English paper](paper/arithmetic-dynamics.pdf) presents the proofs, examples, and formalization scope.
+
 | Result | Formalized scope | Entry point |
 |---|---|---|
 | Inverse realization of recurrence zero sets in positive characteristic | Realization of every `p`-normal set over the fixed field `𝔽_p(t)` | [Derksen/Prop26.lean](ArithDyn/Derksen/Prop26.lean) |
